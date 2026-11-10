@@ -1,7 +1,7 @@
 // Minimal offline cache: app shell + hashed assets, cache-first with background refresh.
-const CACHE = 'packet-sorter-v1'
+const CACHE = 'packet-sorter-v2'
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(['/', '/manifest.webmanifest', '/icon.svg'])).then(() => self.skipWaiting()))
+  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(['./', './manifest.webmanifest', './icon.svg'])).then(() => self.skipWaiting()))
 })
 self.addEventListener('activate', (e) => {
   e.waitUntil(
@@ -18,7 +18,7 @@ self.addEventListener('fetch', (e) => {
           if (res.ok) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put(req, copy)) }
           return res
         })
-        .catch(() => hit || caches.match('/'))
+        .catch(() => hit || caches.match(self.registration.scope))
       return hit || net
     }),
   )

@@ -3,6 +3,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  base: '/api-gateway-packet-sorter/',
   plugins: [react(), tailwindcss()],
   server: { host: true, port: 5173 },
 })
