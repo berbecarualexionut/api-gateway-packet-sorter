@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { playSfx, unlockAudio } from '../audio/sfx'
 import type { LeaderboardEntry } from '../lib/storage'
 import { Leaderboard } from './Leaderboard'
+import { InspectIcon, RulesIcon, SwipeIcon } from './StepIcons'
 import { Logo } from './Logo'
 
 function MeshCanvas() {
@@ -81,13 +82,12 @@ export function Attract({ company, entries, onStart, onLogoTap }: Props) {
       <div style={{ position: 'relative', zIndex: 2, padding: '1rem 2rem 0', display: 'flex' }}><Logo name={company} onTap={onLogoTap} /></div>
       <div className="attract">
         <div className="attract-main">
-          <div className="eyebrow">// CLOUD SECOPS · LIVE TRAFFIC</div>
           <h1 className="title">API Gateway:<br /><span>Packet Sorter</span></h1>
           <button className="cta" onClick={() => { unlockAudio(); playSfx('click'); onStart() }}>Tap to defend the cloud</button>
           <div className="how">
-            <div className="how-step"><div className="ic">🔍</div><b>1 · INSPECT</b><span>Read the packet header & payload</span></div>
-            <div className="how-step"><div className="ic">📋</div><b>2 · CHECK RULES</b><span>Rules change mid-game!</span></div>
-            <div className="how-step"><div className="ic">👉</div><b>3 · SWIPE</b><span>Right = Prod · Left = Quarantine</span></div>
+            <article className="how-step"><div className="media"><InspectIcon /></div><h3>Inspect</h3><p>Read the packet header &amp; payload</p></article>
+            <article className="how-step"><div className="media"><RulesIcon /></div><h3>Check rules</h3><p>Rules change mid-game!</p></article>
+            <article className="how-step"><div className="media"><SwipeIcon /></div><h3>Decide</h3><p>Right = Prod · Left = Quarantine</p></article>
           </div>
         </div>
         <Leaderboard entries={entries} limit={5} />

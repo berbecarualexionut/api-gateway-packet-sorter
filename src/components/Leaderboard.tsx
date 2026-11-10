@@ -2,27 +2,33 @@ import type { LeaderboardEntry } from '../lib/storage'
 
 interface Props { entries: LeaderboardEntry[]; limit?: number; highlightId?: string; title?: string }
 
-export function Leaderboard({ entries, limit = 5, highlightId, title = 'TOP DEFENDERS · LIVE' }: Props) {
+export function Leaderboard({ entries, limit = 5, highlightId, title = 'Top defenders · live' }: Props) {
   const top = entries.slice(0, limit)
   const meIdx = highlightId ? entries.findIndex((e) => e.id === highlightId) : -1
   const meOutside = meIdx >= limit
   const row = (e: LeaderboardEntry, i: number) => (
-    <div key={e.id} className={`lb-row ${e.id === highlightId ? 'me' : ''}`}>
-      <span className="pos">#{i + 1}</span>
-      <div style={{ minWidth: 0 }}>
+    <tr key={e.id} className={e.id === highlightId ? 'me' : ''}>
+      <td className="pos">{i + 1}</td>
+      <td>
         <div className="nm">{e.name}</div>
-        {!e.initialsOnly && e.company && <div className="co">{e.company}</div>}
-        {e.initialsOnly && <div className="co">{e.rank}</div>}
-      </div>
-      <span className="sc">{e.score.toLocaleString()}</span>
-    </div>
+        <div className="co">{e.initialsOnly ? e.rank : e.company}</div>
+      </td>
+      <td className="sc">{e.score.toLocaleString()}</td>
+    </tr>
   )
   return (
     <div className="lb">
-      <div className="lb-title">🏆 {title}</div>
-      {top.length === 0 && <div className="lb-empty">NO SCORES YET — BE THE FIRST!</div>}
-      {top.map(row)}
-      {meOutside && (<><div className="lb-gap">···</div>{row(entries[meIdx], meIdx)}</>)}
+      <h3 className="table-title">{title}</h3>
+      <table className="s-table">
+        <thead>
+          <tr><th className="pos">#</th><th>Defender</th><th className="sc">Score</th></tr>
+        </thead>
+        <tbody>
+          {top.length === 0 && <tr><td colSpan={3} className="lb-empty">No scores yet — be the first!</td></tr>}
+          {top.map(row)}
+          {meOutside && (<><tr><td colSpan={3} className="lb-gap">···</td></tr>{row(entries[meIdx], meIdx)}</>)}
+        </tbody>
+      </table>
     </div>
   )
 }

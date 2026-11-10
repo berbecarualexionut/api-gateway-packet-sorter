@@ -3,15 +3,10 @@
 @import '@fontsource/barlow/500.css';
 @import '@fontsource/barlow/600.css';
 @import '@fontsource/barlow/700.css';
-@import '@fontsource/barlow-condensed/600.css';
-@import '@fontsource/barlow-condensed/700.css';
-@import '@fontsource/jetbrains-mono/400.css';
-@import '@fontsource/jetbrains-mono/600.css';
-@import '@fontsource/jetbrains-mono/700.css';
 
-/* Palette + type borrowed from the STACKIT brand: DIN-style sans (Barlow is the free
-   stand-in for "DIN 2014"), deep navy #000e19 / #0a1e2d, brand blue #0046a0,
-   teal #00c3cd, orange #f07d00, ice blue #dbeaff. */
+/* Design language of stackit.com ("Trinity" tokens): flat #0a1e2d surfaces, #00c3cd teal
+   accent, 4px radii, 1px teal-outlined tables with #31495c banding. "DIN 2014" / "Univia Pro"
+   are proprietary, so Barlow is the free stand-in unless the real fonts are installed. */
 @theme {
   --color-bg: #000e19;
   --color-panel: #0a1e2d;
@@ -25,17 +20,19 @@
   --color-prod: #10b981;
   --color-quar: #ef4444;
   --font-sans: 'DIN 2014', 'Univia Pro', 'Barlow', system-ui, sans-serif;
-  --font-cond: 'DIN 2014', 'Barlow Condensed', 'Barlow', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  --font-cond: 'Univia Pro', 'DIN 2014', 'Barlow', sans-serif;
+  --font-mono: 'DIN 2014', 'Univia Pro', 'Barlow', system-ui, sans-serif; /* one typeface everywhere */
 }
 
 :root {
-  --bg: #000e19;
-  --panel: #0a1e2d;
+  --bg: #0a1e2d;
+  --panel: #11212d;
   --panel2: #0f2b40;
-  --line: rgba(0, 195, 205, 0.28);
+  --line: #00c3cd;
+  --surface: #11212d;
+  --band: #31495c;
   --ice: #dbeaff;
-  --dim: #7f9bb3;
+  --dim: #9db3c4;
   --cyan: #00f0ff;
   --teal: #00c3cd;
   --brand: #0046a0;
@@ -62,7 +59,7 @@ html, body, #root {
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
   background: var(--bg);
-  color: var(--ice);
+  color: #fff;
   font-family: var(--font-sans);
 }
 button { font-family: inherit; color: inherit; touch-action: manipulation; cursor: pointer; }
@@ -178,14 +175,6 @@ input, textarea {
 /* Rules board */
 .rules { display: flex; flex-direction: column; }
 .rules-list { flex: 1; min-height: 0; overflow: hidden; padding: .7rem; display: flex; flex-direction: column; gap: .55rem; }
-.rule {
-  padding: .6rem .75rem; border-radius: .7rem; border: 1px solid rgba(45,127,240,.4); background: rgba(0,70,160,.18);
-  animation: ruleIn .5s ease-out;
-}
-.rule.new { border-color: var(--orange); background: rgba(240,125,0,.15); }
-.rule .n { font-family: var(--font-mono); font-size: .7rem; color: var(--dim); display: flex; justify-content: space-between; }
-.rule .t { font-weight: 700; letter-spacing: .08em; font-size: .95rem; color: #fff; margin-top: .1rem; }
-.rule .d { font-family: var(--font-mono); font-size: .8rem; color: var(--ice); margin-top: .2rem; line-height: 1.25; }
 .rule-always { margin: 0 .7rem .7rem; padding: .5rem .7rem; font-size: .72rem; line-height: 1.3; color: #ffc9c9; border: 1px dashed rgba(239,68,68,.5); border-radius: .6rem; background: rgba(239,68,68,.08); }
 @keyframes ruleIn { from { opacity: 0; transform: translateX(-24px) scale(.96); } }
 .rules.flash { animation: panelFlash 1.6s ease-out; }
@@ -232,11 +221,6 @@ input, textarea {
   box-shadow: 0 0 0 1px rgba(0,240,255,.1), 0 0 32px rgba(0,195,205,.25), 0 1rem 2rem rgba(0,0,0,.5);
 }
 .packet-head { display: flex; justify-content: space-between; padding: .5rem .9rem; font-family: var(--font-mono); font-size: .72rem; letter-spacing: .12em; color: var(--teal); background: rgba(0,0,0,.3); border-bottom: 1px solid var(--line); }
-.packet-body { padding: .35rem .9rem .7rem; display: grid; gap: .1rem; }
-.field { display: grid; grid-template-columns: 5.6rem 1fr; align-items: baseline; gap: .6rem; padding: .42rem 0; border-bottom: 1px dashed rgba(127,155,179,.22); }
-.field:last-child { border-bottom: 0; }
-.field .k { font-size: .68rem; letter-spacing: .14em; color: var(--dim); font-weight: 600; }
-.field .v { font-family: var(--font-mono); font-weight: 600; font-size: 1.08rem; color: #fff; word-break: break-all; line-height: 1.25; }
 .method { display: inline-block; padding: .05rem .5rem; margin-right: .5rem; border-radius: .35rem; background: var(--brand); color: #fff; font-weight: 700; font-size: .95rem; }
 .method.DELETE { background: #7f1d1d; }
 .payload { background: rgba(0,0,0,.4); border: 1px solid rgba(255,255,255,.08); padding: .4rem .6rem; border-radius: .5rem; color: #e8f3ff; }
@@ -321,16 +305,6 @@ input, textarea {
 .how-step b { display: block; font-size: .85rem; letter-spacing: .1em; margin-top: .2rem; color: var(--cyan); }
 .how-step span { font-size: .78rem; color: var(--dim); line-height: 1.2; display: block; margin-top: .15rem; }
 .lb { width: 100%; border-radius: 1.2rem; border: 1px solid var(--line); background: rgba(10,30,45,.85); overflow: hidden; backdrop-filter: blur(6px); }
-.lb-title { padding: .8rem 1.1rem; font-weight: 700; letter-spacing: .18em; font-size: .9rem; color: var(--teal); border-bottom: 1px solid var(--line); background: rgba(0,0,0,.3); }
-.lb-row { display: grid; grid-template-columns: 2.4rem 1fr auto; gap: .6rem; align-items: center; padding: .6rem 1.1rem; border-bottom: 1px solid rgba(127,155,179,.14); }
-.lb-row .pos { font-family: var(--font-mono); font-weight: 700; color: var(--dim); }
-.lb-row:nth-child(2) .pos { color: #fbbf24; } .lb-row:nth-child(3) .pos { color: #cbd5e1; } .lb-row:nth-child(4) .pos { color: #d08a4e; }
-.lb-row .nm { font-weight: 700; font-size: 1.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.lb-row .co { font-size: .75rem; color: var(--dim); }
-.lb-row .sc { font-family: var(--font-mono); font-weight: 700; font-size: 1.2rem; color: var(--cyan); }
-.lb-row.me { background: rgba(0,240,255,.16); box-shadow: inset 0 0 0 2px var(--cyan); animation: ctaPulse 1.6s ease-in-out infinite; }
-.lb-empty { padding: 1.4rem; text-align: center; color: var(--dim); font-family: var(--font-mono); font-size: .9rem; }
-.lb-gap { text-align: center; color: var(--dim); letter-spacing: .4em; padding: .1rem; }
 
 /* Summary */
 .summary { position: relative; z-index: 2; flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; padding: 1.6rem 2rem; align-content: center; overflow-y: auto; touch-action: pan-y; }
@@ -392,3 +366,125 @@ input, textarea {
   .attract { padding-top: .8rem; padding-bottom: .8rem; } .title { font-size: 3.6rem; }
 }
 @media (prefers-reduced-motion: reduce) { .pipe-bg { animation: none; } }
+
+
+/* ═════════ STACKIT look & feel (stackit.com) ═════════
+   Flat navy page, teal #00c3cd accent, 4px corners, no glows, regular-weight uppercase headings,
+   teal-outlined tables whose header row and every other row use #31495c. */
+.app, .screen { background: #0a1e2d; }
+.app::before, .glitch + .x { display: none; }
+.attract-canvas { opacity: .5; }
+
+h1, h2, h3, .title, .modal h2, .rank-name, .endcard, .banner .ttl, .cta, .btn, .eyebrow {
+  font-family: var(--font-cond); font-weight: 400; letter-spacing: 0; text-transform: uppercase;
+}
+.eyebrow { color: var(--teal); font-size: 1rem; letter-spacing: 0; }
+.title { font-size: 4.2rem; line-height: 1.1; color: #fff; }
+.title span { color: var(--teal); text-shadow: none; }
+.cond { letter-spacing: 0; }
+
+/* Panels & cards */
+.panel, .sum-card, .modal, .how-step, .lb, .mini, .packet {
+  border-radius: 4px; border: 1px solid var(--teal); background: var(--surface); box-shadow: none; backdrop-filter: none;
+}
+.panel-title, .packet-head {
+  font-family: var(--font-sans); font-weight: 700; letter-spacing: 0; font-size: 1rem; color: var(--teal);
+  background: var(--band); border-bottom: 1px solid var(--teal); padding: .7rem 1rem; text-transform: none;
+}
+.packet-head { font-family: var(--font-mono); font-size: .8rem; font-weight: 400; color: #fff; }
+.hud { background: #081723; border-bottom: 1px solid rgba(0,195,205,.4); box-shadow: none; }
+.hud-left, .hud-right { color: #fff; }
+.streak, .icon-btn { border-radius: 4px; background: var(--surface); border-color: var(--teal); box-shadow: none; }
+.streak.hot { border-color: var(--orange); box-shadow: none; }
+.sla-bar { border-radius: 2px; background: var(--band); border-color: transparent; }
+.sla-fill { border-radius: 2px; box-shadow: none; }
+.timer .t { color: var(--teal); text-shadow: none; }
+.timer.low .t { color: #ff8a8a; text-shadow: none; }
+.score .val { color: #fff; }
+.abort-btn { border-radius: 4px; background: transparent; border: 1px solid #ff8a8a; color: #ff8a8a; letter-spacing: 0; font-weight: 400; }
+.abort-btn.confirm { background: #bc2d2a; border-color: #bc2d2a; color: #fff; }
+.sla-label, .score .lbl, .timer .phase, .hint, .lbl, .field .k { letter-spacing: 0; font-weight: 400; }
+
+/* Tables — mirrors .digits-table on stackit.com */
+.s-table {
+  width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); color: #fff;
+  border: 1px solid var(--teal); border-radius: 4px; overflow: hidden; font-size: 1rem; line-height: 1.5;
+}
+.lb .s-table, .rules .s-table, .packet .s-table { border: 0; border-radius: 0; }
+.s-table th, .s-table td { padding: .6rem .9rem; text-align: left; vertical-align: top; font-weight: 400; border: 0; }
+.s-table thead th, .s-table tbody th { font-weight: 700; }
+.s-table thead tr { background: var(--band); }
+.s-table tbody tr:nth-child(even) { background: var(--band); }
+.s-table .pos, .s-table .sc, .s-table .st { white-space: nowrap; }
+.s-table .sc, .s-table .st { text-align: right; }
+.s-table .pos { width: 2.6rem; font-family: var(--font-mono); color: var(--dim); }
+.s-table .nm { font-weight: 700; font-size: 1.05rem; }
+.s-table .co { font-size: .85rem; color: var(--dim); line-height: 1.3; }
+.s-table .sc { font-family: var(--font-mono); font-weight: 700; color: var(--teal); }
+.s-table .lb-empty, .s-table .lb-gap { text-align: center; color: var(--dim); }
+.s-table tr.me { outline: 2px solid var(--teal); outline-offset: -2px; background: rgba(0,195,205,.2) !important; }
+.s-table tr.new td { color: #f2994a; }
+.s-table tr.new .co { color: #f6d2b1; }
+.table-title { margin: 0; padding: .8rem 1rem; font-size: 1.15rem; color: var(--teal); background: var(--surface); border-bottom: 1px solid var(--teal); }
+.lb { overflow: hidden; }
+.rules-list { padding: 0; gap: 0; }
+.rules .s-table .co { font-family: var(--font-sans); }
+.rule-always { margin: 0; border: 0; border-top: 1px solid var(--teal); border-radius: 0; background: rgba(209,51,47,.2); color: #ffb4b4; font-size: .8rem; padding: .6rem .9rem; }
+.packet-table tbody th { width: 6.5rem; color: var(--dim); font-weight: 400; white-space: nowrap; }
+.packet-table td { font-family: var(--font-mono); font-weight: 600; word-break: break-all; }
+.packet-table .payload { background: transparent; border: 0; padding: .6rem .9rem; border-radius: 0; color: #fff; }
+.method { border-radius: 4px; letter-spacing: 0; }
+.policy-tag { background: #f07d00; color: #0a1e2d; letter-spacing: 0; font-weight: 700; }
+.panel.rules.flash { animation: panelFlashS 1.6s ease-out; }
+@keyframes panelFlashS { 0%, 30%, 60% { border-color: #f07d00; box-shadow: 0 0 0 2px #f07d00; } 15%, 45%, 75%, 100% { box-shadow: none; } }
+.packet-wrap.dragging .packet { box-shadow: 0 1rem 2rem rgba(0,0,0,.6), 0 0 0 2px var(--teal); }
+
+/* Buttons — .digits-button (filled teal) and --variant-outline (white outline) */
+.cta, .btn.primary {
+  background: var(--teal); color: #0a1e2d; border: 1px solid var(--teal); border-radius: 4px; box-shadow: none; animation: none;
+}
+.cta { font-size: 1.6rem; padding: 1.1rem 1.6rem; max-width: 30rem; }
+.cta:hover, .btn.primary:hover { background: #3dd0d8; border-color: #3dd0d8; }
+.btn { background: transparent; color: #fff; border: 1px solid #fff; border-radius: 4px; font-size: 1.1rem; padding: .9rem 1.2rem; }
+.btn:hover { background: rgba(255,255,255,.1); }
+.link-btn { color: var(--teal); }
+
+/* Zones keep their semantic green/red but lose the glow */
+.zone { border-radius: 4px; border-width: 1px; box-shadow: none !important; }
+.zone .ttl { font-family: var(--font-cond); font-weight: 400; letter-spacing: 0; }
+.zone.prod { background: rgba(50,140,94,.25); border-color: #44aa75; }
+.zone.quar { background: rgba(209,51,47,.25); border-color: #dc716e; }
+.zone.prod.hover { background: rgba(50,140,94,.6); } .zone.quar.hover { background: rgba(209,51,47,.6); }
+.toast { border-radius: 4px; }
+.how-step b { color: var(--teal); letter-spacing: 0; font-weight: 700; }
+.how-step .ic { font-size: 1.6rem; }
+.big-score { text-shadow: none; }
+.rank-name { color: var(--teal); }
+.stat { border-radius: 4px; background: var(--band); border: 0; }
+.stat span { letter-spacing: 0; font-weight: 400; }
+.report h3 { color: #f2994a; letter-spacing: 0; font-size: 1.2rem; }
+.pitch { border-radius: 4px; background: var(--band); border: 1px solid var(--teal); }
+.countdown .num { color: var(--teal); text-shadow: none; }
+.countdown .num.go { text-shadow: none; }
+.input { border-radius: 4px; background: var(--bg); border-color: var(--teal); }
+.input:focus { border-color: #3dd0d8; box-shadow: 0 0 0 3px rgba(0,195,205,.4); }
+.toggle button { border-radius: 4px; }
+.toggle button.on { background: var(--teal); color: #0a1e2d; }
+.dot { box-shadow: none; }
+.pipe-bg { border-radius: 4px; opacity: .6; }
+
+/* Start-screen steps — stackit.com "media article" tiles: borderless, 8px-rounded media on top,
+   bold title, body copy, 16px gap, 24px grid gap. */
+.how { gap: 1.2rem; max-width: 36rem; }
+.how .how-step {
+  display: flex; flex-direction: column; gap: .8rem; padding: .6rem 0; text-align: left;
+  background: none; border: 0; border-radius: 0;
+}
+.how .media { color: var(--teal); line-height: 0; }
+.how .step-icon { width: 6rem; height: 6rem; display: block; }
+.how h3 { margin: 0; font-family: var(--font-sans); font-size: 1.3rem; line-height: 1.25; font-weight: 700; text-transform: none; color: #fff; }
+.how p { margin: 0; font-size: 1rem; line-height: 1.3; color: #fff; }
+
+/* One typeface across home and game: numbers stay aligned via tabular figures instead of a monospace font. */
+body, button, input { font-family: var(--font-sans); }
+.timer .t, .score .val, .streak .mult, .sla-label b, .s-table .sc, .s-table .pos, .packet-head, .packet-table td, .mini { font-variant-numeric: tabular-nums; }
